@@ -1,0 +1,575 @@
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Ассортимент | Премиум бренды</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f9fe;
+            color: #1a2a3a;
+            line-height: 1.4;
+        }
+
+        /* акцентный градиент Skype (синий → голубой) */
+        .skype-gradient {
+            background: linear-gradient(135deg, #00AFF0 0%, #0078D7 50%, #2B579A 100%);
+        }
+
+        /* 1. ЗАГОЛОВОК В СТИЛЕ ЛОГОТИПА SKYPE (облачко + градиент) */
+        .skype-header {
+            text-align: center;
+            padding: 3rem 2rem 2rem;
+            background: linear-gradient(120deg, #ffffff 0%, #eef2f9 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        /* имитация облачка - главный элемент заголовка */
+        .skype-bubble {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(145deg, #00AFF0, #0078D7);
+            padding: 0.5rem 2rem 0.5rem 2rem;
+            border-radius: 80px;
+            box-shadow: 0 20px 30px -12px rgba(0,120,215,0.3);
+            margin-bottom: 1.2rem;
+            transition: transform 0.2s ease;
+        }
+        .skype-bubble:hover {
+            transform: scale(1.01);
+        }
+        .skype-bubble h1 {
+            font-size: 3.6rem;
+            font-weight: 800;
+            color: white;
+            letter-spacing: -0.01em;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        /* дополнительная стилизация как у Skype — свечение и белая S не нужна, но эффект есть */
+        .skype-header p {
+            font-size: 1.2rem;
+            color: #2c5a7a;
+            font-weight: 500;
+            background: rgba(255,255,255,0.6);
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            backdrop-filter: blur(2px);
+        }
+        .skype-header::before {
+            content: "";
+            position: absolute;
+            top: -30%;
+            left: -10%;
+            width: 120%;
+            height: 140%;
+            background: radial-gradient(circle, rgba(0,175,240,0.08) 0%, rgba(0,120,215,0) 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .skype-header > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* контейнер */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 2rem;
+        }
+
+        /* 2. КАРТОЧКИ КАТЕГОРИЙ (навыки) с анимацией */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        .category-card {
+            background: white;
+            border-radius: 28px;
+            padding: 1.5rem;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            border: 1px solid rgba(0,120,215,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .category-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 25px 35px rgba(0,120,215,0.15);
+            border-color: rgba(0,175,240,0.4);
+        }
+        .category-card::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+            background: linear-gradient(180deg, #00AFF0, #0078D7);
+            border-radius: 28px 0 0 28px;
+            transition: width 0.2s;
+        }
+        .category-card:hover::after {
+            width: 8px;
+        }
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.25rem;
+            border-bottom: 2px solid #eef2f7;
+            padding-bottom: 0.75rem;
+        }
+        .card-header h3 {
+            font-size: 1.7rem;
+            font-weight: 700;
+            background: linear-gradient(120deg, #1f4973, #0078D7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .card-header .emoji {
+            font-size: 2rem;
+        }
+        .subcat-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-bottom: 1rem;
+        }
+        .subcat-tag {
+            background: #f0f4f9;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #1e4663;
+            transition: all 0.2s;
+        }
+        .subcat-tag:hover {
+            background: #00AFF0;
+            color: white;
+            transform: scale(1.02);
+        }
+        .more-link {
+            font-size: 0.8rem;
+            color: #0078D7;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            margin-top: 0.5rem;
+        }
+        .more-link:hover {
+            text-decoration: underline;
+        }
+
+        /* 4. КЕЙСЫ В ВЫДЕЛЕННЫХ БЛОКАХ */
+        .case-studies {
+            background: #ffffffd9;
+            border-radius: 48px;
+            padding: 2rem;
+            margin: 3rem 0;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+            border: 1px solid #e2edf7;
+        }
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        .section-title:after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 70px;
+            height: 4px;
+            background: linear-gradient(90deg, #0078D7, #6bc6ff);
+            border-radius: 4px;
+        }
+        .cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .case-card {
+            background: #f8fbfe;
+            padding: 1.5rem;
+            border-radius: 24px;
+            transition: all 0.2s;
+            border-left: 4px solid #0078D7;
+        }
+        .case-card:hover {
+            background: #eef5fc;
+            transform: translateX(5px);
+        }
+        .case-card h4 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .case-card p {
+            font-size: 0.9rem;
+            color: #3a5e7e;
+        }
+
+        /* 5. СЕТКА ИНСТРУМЕНТОВ В ВИДЕ ТЕГОВ (бренды / поставщики) */
+        .tools-section {
+            margin: 3rem 0 1rem;
+        }
+        .tags-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 1.2rem;
+        }
+        .tag {
+            background: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 60px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #1e4663;
+            border: 1px solid #cde0ed;
+            transition: all 0.2s;
+            cursor: default;
+        }
+        .tag:hover {
+            background: #0078D7;
+            color: white;
+            border-color: #0078D7;
+            transform: scale(1.02);
+            box-shadow: 0 6px 12px rgba(0,120,215,0.2);
+        }
+
+        .accent-badge {
+            background: linear-gradient(145deg, #0078D7, #00AFF0);
+            color: white;
+            font-weight: 600;
+            padding: 0.2rem 0.8rem;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            display: inline-block;
+        }
+
+        footer {
+            background: #0e2a3b;
+            color: #bbd4ee;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            border-radius: 32px 32px 0 0;
+            font-size: 0.8rem;
+        }
+
+        /* адаптивность */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            .skype-bubble h1 {
+                font-size: 2.4rem;
+            }
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+            .section-title {
+                font-size: 1.6rem;
+            }
+            .tag {
+                font-size: 0.75rem;
+                padding: 0.4rem 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .skype-bubble h1 {
+                font-size: 1.8rem;
+            }
+            .skype-bubble {
+                padding: 0.3rem 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="skype-header">
+    <div class="skype-bubble">
+        <h1>Наименование компании</h1>
+    </div>
+    <p>Эксклюзивный дистрибьютор премиальной продукции</p>
+    <div style="margin-top: 1rem;">
+        <span class="accent-badge">осень-зима 2025</span> 
+        <span class="accent-badge" style="background: #2c5a7a;">скидки до 30%</span>
+    </div>
+</div>
+
+<div class="container">
+
+    <!-- основные категории (карточки) -->
+    <div class="categories-grid">
+        
+        <!-- Алкоголь -->
+        <div class="category-card">
+            <div class="card-header">
+                <span class="emoji">🥃</span>
+                <h3>Алкоголь</h3>
+            </div>
+            <div class="subcat-list">
+                <span class="subcat-tag">Аперитив</span>
+                <span class="subcat-tag">Вермут</span>
+                <span class="subcat-tag">Дижестив</span>
+                <span class="subcat-tag">Портвейн</span>
+                <span class="subcat-tag">Херес</span>
+                <span class="subcat-tag">Виски</span>
+                <span class="subcat-tag">Коньяк</span>
+                <span class="subcat-tag">Ликёры</span>
+                <span class="subcat-tag">Ром</span>
+                <span class="subcat-tag">Текила</span>
+            </div>
+            <div class="subcat-list">
+                <span class="subcat-tag">Вина: Франция, Италия, Чили, Аргентина</span>
+            </div>
+            <a href="#" class="more-link">все позиции →</a>
+        </div>
+
+        <!-- Игрушки -->
+        <div class="category-card">
+            <div class="card-header">
+                <span class="emoji">🧸</span>
+                <h3>Игрушки</h3>
+            </div>
+            <div class="subcat-list">
+                <span class="subcat-tag">Детские игры</span>
+                <span class="subcat-tag">Конструкторы</span>
+                <span class="subcat-tag">Куклы</span>
+                <span class="subcat-tag">Модели машин</span>
+                <span class="subcat-tag">Мягкие игрушки</span>
+                <span class="subcat-tag">Электронные игрушки</span>
+                <span class="subcat-tag">Аксессуары для детей</span>
+            </div>
+            <a href="#" class="more-link">все бренды →</a>
+        </div>
+
+        <!-- Книги и пресса -->
+        <div class="category-card">
+            <div class="card-header">
+                <span class="emoji">📚</span>
+                <h3>Книги и пресса</h3>
+            </div>
+            <div class="subcat-list">
+                <span class="subcat-tag">Художественные</span>
+                <span class="subcat-tag">Детские</span>
+                <span class="subcat-tag">Кулинарные</span>
+                <span class="subcat-tag">Путешествия</span>
+                <span class="subcat-tag">Карты</span>
+                <span class="subcat-tag">Молодежные</span>
+            </div>
+            <a href="#" class="more-link">новинки →</a>
+        </div>
+
+        <!-- Одежда и обувь -->
+        <div class="category-card">
+            <div class="card-header">
+                <span class="emoji">👔</span>
+                <h3>Одежда и обувь</h3>
+            </div>
+            <div class="subcat-list">
+                <span class="subcat-tag">Женская одежда</span>
+                <span class="subcat-tag">Мужская одежда</span>
+                <span class="subcat-tag">Детская одежда</span>
+                <span class="subcat-tag">Аксессуары</span>
+                <span class="subcat-tag">Спортивная одежда</span>
+                <span class="subcat-tag">Верхняя одежда</span>
+                <span class="subcat-tag">Пляжная мода</span>
+                <span class="subcat-tag">Бельё и носки</span>
+            </div>
+            <a href="#" class="more-link">коллекция 2025 →</a>
+        </div>
+
+        <!-- Парфюмерия и косметика -->
+        <div class="category-card">
+            <div class="card-header">
+                <span class="emoji">💄</span>
+                <h3>Парфюмерия & косметика</h3>
+            </div>
+            <div class="subcat-list">
+                <span class="subcat-tag">Женские ароматы</span>
+                <span class="subcat-tag">Мужские ароматы</span>
+                <span class="subcat-tag">Унисекс</span>
+                <span class="subcat-tag">Наборы миниатюр</span>
+                <span class="subcat-tag">Макияж</span>
+                <span class="subcat-tag">Уход за кожей/волосами</span>
+                <span class="subcat-tag">Солнцезащита</span>
+            </div>
+            <a href="#" class="more-link">top brands →</a>
+        </div>
+
+        <!-- Продукты и кондитерские изделия -->
+        <div class="category-card">
+            <div class="card-header">
+                <span class="emoji">🍫</span>
+                <h3>Продукты & сладости</h3>
+            </div>
+            <div class="subcat-list">
+                <span class="subcat-tag">Шоколад</span>
+                <span class="subcat-tag">Карамель</span>
+                <span class="subcat-tag">Бисквиты</span>
+                <span class="subcat-tag">Марципан</span>
+                <span class="subcat-tag">Нуга</span>
+                <span class="subcat-tag">Торты и кексы</span>
+                <span class="subcat-tag">Чай, кофе</span>
+                <span class="subcat-tag">Мёд, джемы</span>
+            </div>
+            <a href="#" class="more-link">деликатесы →</a>
+        </div>
+
+        <!-- Сувениры / Подарки -->
+        <div class="category-card">
+            <div class="card-header">
+                <span class="emoji">🎁</span>
+                <h3>Сувениры</h3>
+            </div>
+            <div class="subcat-list">
+                <span class="subcat-tag">Игрушки</span>
+                <span class="subcat-tag">Керамика</span>
+                <span class="subcat-tag">Текстиль</span>
+                <span class="subcat-tag">Маленькие аксессуары</span>
+            </div>
+            <a href="#" class="more-link">подарочные наборы →</a>
+        </div>
+
+        <!-- Часы, ювелирка, аксессуары -->
+        <div class="category-card">
+            <div class="card-header">
+                <span class="emoji">⌚</span>
+                <h3>Часы & ювелирка</h3>
+            </div>
+            <div class="subcat-list">
+                <span class="subcat-tag">Мужские часы</span>
+                <span class="subcat-tag">Женские часы</span>
+                <span class="subcat-tag">Унисекс</span>
+                <span class="subcat-tag">Кольца (золото/серебро)</span>
+                <span class="subcat-tag">Серьги</span>
+                <span class="subcat-tag">Браслеты, колье</span>
+                <span class="subcat-tag">Солнцезащитные очки</span>
+            </div>
+            <a href="#" class="more-link">эксклюзивы →</a>
+        </div>
+
+        <!-- Электроника -->
+        <div class="category-card">
+            <div class="card-header">
+                <span class="emoji">💻</span>
+                <h3>Электроника</h3>
+            </div>
+            <div class="subcat-list">
+                <span class="subcat-tag">Наушники и микрофоны</span>
+                <span class="subcat-tag">Hi-Fi Стерео</span>
+                <span class="subcat-tag">Аксессуары для телефонов</span>
+                <span class="subcat-tag">Фотокамеры</span>
+                <span class="subcat-tag">Накопители USB</span>
+                <span class="subcat-tag">Карты памяти</span>
+                <span class="subcat-tag">Мелкая бытовая техника</span>
+            </div>
+            <a href="#" class="more-link">гаджеты →</a>
+        </div>
+
+        <!-- Табачные изделия + сигары -->
+        <div class="category-card">
+            <div class="card-header">
+                <span class="emoji">🚬</span>
+                <h3>Табачные изделия</h3>
+            </div>
+            <div class="subcat-list">
+                <span class="subcat-tag">Сигареты люкс</span>
+                <span class="subcat-tag">Сигариллы</span>
+                <span class="subcat-tag">Сигары ручной скрутки</span>
+                <span class="subcat-tag">Международные бренды</span>
+            </div>
+            <a href="#" class="more-link">премиум табак →</a>
+        </div>
+    </div>
+
+    <!-- 4. КЕЙСЫ -->
+    <div class="case-studies">
+        <div class="section-title">🏆 Успешные кейсы</div>
+        <div class="cases-grid">
+            <div class="case-card">
+                <h4>Рост продаж виски на 47%</h4>
+                <p>Внедрение дегустационных сетов и эксклюзивных дистрибуций односолодового шотландского виски увеличило выручку за квартал.</p>
+            </div>
+            <div class="case-card">
+                <h4>Капсульная коллекция «Ароматы мира»</h4>
+                <p>Лимитированная партия женской парфюмерии разобрана за 3 недели, средний чек +32%.</p>
+            </div>
+            <div class="case-card">
+                <h4>«Детский мир» — охват +210%</h4>
+                <p>Расширение категории конструкторов и обучающих игр привело к росту лояльности молодых родителей.</p>
+            </div>
+            <div class="case-card">
+                <h4>Акция «Винный гид»</h4>
+                <p>Подборка итальянских и чилийских вин с персонализированными рекомендациями повысила конверсию на 28%.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. СЕТКА ИНСТРУМЕНТОВ / БРЕНДЫ В ВИДЕ ТЕГОВ (без "популярные направления") -->
+    <div class="tools-section">
+        <div class="section-title">🏷️ Бренды и поставщики</div>
+        <div class="tags-cloud">
+            <span class="tag">Moët & Chandon</span>
+            <span class="tag">Johnnie Walker</span>
+            <span class="tag">Hennessy</span>
+            <span class="tag">Bombay Sapphire</span>
+            <span class="tag">Lego</span>
+            <span class="tag">Mattel</span>
+            <span class="tag">Chanel</span>
+            <span class="tag">Dior</span>
+            <span class="tag">Apple</span>
+            <span class="tag">Sony</span>
+            <span class="tag">JBL</span>
+            <span class="tag">Lindt</span>
+            <span class="tag">Toblerone</span>
+            <span class="tag">Rolex</span>
+            <span class="tag">Tissot</span>
+            <span class="tag">Porsche Design</span>
+            <span class="tag">Davidoff</span>
+            <span class="tag">Cohiba</span>
+        </div>
+    </div>
+
+    <!-- дополнительный акцентный блок про премиум сегмент -->
+    <div style="background: #e9f2f9; border-radius: 32px; padding: 1.5rem; margin: 2rem 0 0.5rem;">
+        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem;">
+            <div><strong>⭐ Премиум сегмент</strong> — Коньяк XO, Односолодовый виски, Шампанское, Ювелирные часы</div>
+            <div><span class="accent-badge" style="background: #1f4a6e;">скидка при заказе от 5 единиц</span></div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>© 2025 Наименование компании — официальный импортер и дистрибьютор. Лучший ассортимент алкоголя, одежды, косметики и электроники.</p>
+    <p style="margin-top: 0.5rem;">Дизайн вдохновлён стилистикой Skype | градиентные акценты</p>
+</footer>
+
+</body>
+</html>
+```
